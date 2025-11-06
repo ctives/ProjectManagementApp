@@ -59,7 +59,7 @@ export function useKanbanData() {
       .filter(c => c.columnId === newColumnId)
       .sort((a, b) => a.order - b.order)
 
-    const updatedCards = boardState.cards.map((card, idx) => {
+    const updatedCards = boardState.cards.map((card) => {
       if (card.id === cardId) {
         return { ...card, columnId: newColumnId, order: newOrder, updatedAt: new Date().toISOString() }
       }

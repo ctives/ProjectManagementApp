@@ -17,6 +17,7 @@ import { useKanbanData } from '@/hooks/useKanbanData'
 import Column from './Column'
 import AddColumnModal from './AddColumnModal'
 import Button from '@/components/ui/Button'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 export default function Board() {
   const [isAddColumnOpen, setIsAddColumnOpen] = useState(false)
@@ -94,22 +95,25 @@ export default function Board() {
       collisionDetection={closestCorners}
       onDragEnd={handleDragEnd}
     >
-      <div className="w-full h-full bg-gradient-to-br from-slate-50 to-slate-100 p-6 overflow-x-auto">
+      <div className="w-full h-full bg-gradient-to-br from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-800 p-6 overflow-x-auto transition-colors duration-200">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Project Board</h1>
-              <p className="text-gray-600 mt-2">Organize and track your tasks with ease</p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Project Board</h1>
+              <p className="text-gray-600 dark:text-gray-300 mt-2">Organize and track your tasks with ease</p>
             </div>
-            <Button
-              variant="primary"
-              onClick={() => setIsAddColumnOpen(true)}
-              className="flex items-center gap-2"
-            >
-              <Plus size={18} />
-              Add Column
-            </Button>
+            <div className="flex items-center gap-4">
+              <ThemeToggle />
+              <Button
+                variant="primary"
+                onClick={() => setIsAddColumnOpen(true)}
+                className="flex items-center gap-2"
+              >
+                <Plus size={18} />
+                Add Column
+              </Button>
+            </div>
           </div>
         </div>
 

@@ -13,10 +13,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = 'font-medium rounded-lg transition-colors duration-200 cursor-pointer'
 
     const variantStyles = {
-      primary: 'bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800',
-      secondary: 'bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800',
-      ghost: 'bg-transparent text-gray-700 hover:bg-gray-100 active:bg-gray-200',
-      danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
+      primary: 'bg-purple-600 dark:bg-purple-500 text-white hover:bg-purple-700 dark:hover:bg-purple-600 active:bg-purple-800 dark:active:bg-purple-700',
+      secondary: 'bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-700 dark:hover:bg-blue-600 active:bg-blue-800 dark:active:bg-blue-700',
+      ghost: 'bg-transparent text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-200 dark:active:bg-gray-600',
+      danger: 'bg-red-600 dark:bg-red-500 text-white hover:bg-red-700 dark:hover:bg-red-600 active:bg-red-800 dark:active:bg-red-700',
     }
 
     const sizeStyles = {
@@ -25,7 +25,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       lg: 'px-6 py-3 text-lg',
     }
 
-    const { onAnimationStart, onAnimationEnd, ...motionProps } = props
+    const {
+      onAnimationStart,
+      onAnimationEnd,
+      onDragStart,
+      onDragEnd,
+      onDrag,
+      ...motionProps
+    } = props
 
     return (
       <motion.button
