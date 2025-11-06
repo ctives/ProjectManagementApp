@@ -1,0 +1,44 @@
+'use client'
+
+import React from 'react'
+import { motion } from 'framer-motion'
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
+  size?: 'sm' | 'md' | 'lg'
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ variant = 'primary', size = 'md', className, ...props }, ref) => {
+    const baseStyles = 'font-medium rounded-lg transition-colors duration-200 cursor-pointer'
+
+    const variantStyles = {
+      primary: 'bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800',
+      secondary: 'bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800',
+      ghost: 'bg-transparent text-gray-700 hover:bg-gray-100 active:bg-gray-200',
+      danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
+    }
+
+    const sizeStyles = {
+      sm: 'px-3 py-1 text-sm',
+      md: 'px-4 py-2 text-base',
+      lg: 'px-6 py-3 text-lg',
+    }
+
+    const { onAnimationStart, onAnimationEnd, ...motionProps } = props
+
+    return (
+      <motion.button
+        ref={ref}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
+        {...motionProps}
+      />
+    )
+  }
+)
+
+Button.displayName = 'Button'
+
+export default Button
