@@ -4,9 +4,11 @@ import React, { useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { motion } from 'framer-motion'
-import { Trash2, Edit2 } from 'lucide-react'
+import { Trash2, Edit2, Sparkles, Loader2 } from 'lucide-react'
 import type { Card } from '@/types/kanban'
 import CardDetailsModal from './CardDetailsModal'
+import PromptModal from './PromptModal'
+import { useGeneratePrompt } from '@/hooks/useGeneratePrompt'
 
 interface KanbanCardProps {
   card: Card
@@ -16,6 +18,8 @@ interface KanbanCardProps {
 
 export default function KanbanCard({ card, onDelete, onUpdate }: KanbanCardProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
+  const [isPromptModalOpen, setIsPromptModalOpen] = useState(false)
+  const { isLoading, error, prompt, generatePrompt } = useGeneratePrompt()
   const {
     attributes,
     listeners,
@@ -38,6 +42,16 @@ export default function KanbanCard({ card, onDelete, onUpdate }: KanbanCardProps
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation()
     setIsDetailsOpen(true)
+  }
+
+  const handleGeneratePrompt = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    try {
+      await generatePrompt(card.title)
+      setIsPromptModalOpen(true)
+    } catch (err) {
+      console.error('Failed to generate prompt:', err)
+    }
   }
 
   return (
@@ -64,6 +78,14 @@ export default function KanbanCard({ card, onDelete, onUpdate }: KanbanCardProps
           </h3>
           <div className="flex gap-1 flex-shrink-0">
             <button
+              onClick={handleGeneratePrompt}
+              disabled={isLoading}
+              className="p-1 text-gray-400 hover:text-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              title="Generate AI prompt"
+            >
+              {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}
+            </button>
+            <button
               onClick={handleEdit}
               className="p-1 text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               title="Edit card"
@@ -87,6 +109,13 @@ export default function KanbanCard({ card, onDelete, onUpdate }: KanbanCardProps
         )}
 
         <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-600 text-xs text-gray-400 dark:text-gray-500">
+        {error && (
+          <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded text-xs text-red-700">
+            {error}
+          </div>
+        )}
+
+        <div className="mt-3 pt-3 border-t border-gray-100 text-xs text-gray-400">
           {new Date(card.createdAt).toLocaleDateString()}
         </div>
       </motion.div>
@@ -96,6 +125,13 @@ export default function KanbanCard({ card, onDelete, onUpdate }: KanbanCardProps
         isOpen={isDetailsOpen}
         onClose={() => setIsDetailsOpen(false)}
         onUpdate={onUpdate}
+      />
+
+      <PromptModal
+        isOpen={isPromptModalOpen}
+        onClose={() => setIsPromptModalOpen(false)}
+        prompt={prompt || ''}
+        taskTitle={card.title}
       />
     </>
   )
