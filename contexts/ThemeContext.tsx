@@ -13,27 +13,34 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light')
+  // Initialize state based on what the script in layout.tsx set
+  const getInitialTheme = (): Theme => {
+    if (typeof window === 'undefined') return 'light'
+
+    // Check if the dark class is already on the document (from layout.tsx script)
+    if (document.documentElement.classList.contains('dark')) {
+      return 'dark'
+    }
+
+    const savedTheme = localStorage.getItem('theme') as Theme | null
+    if (savedTheme) {
+      return savedTheme
+    }
+
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    return prefersDark ? 'dark' : 'light'
+  }
+
+  const [theme, setTheme] = useState<Theme>(getInitialTheme)
   const [mounted, setMounted] = useState(false)
 
-  // Load theme from localStorage on mount
+  // Mark as mounted after hydration
   useEffect(() => {
     setMounted(true)
-    const savedTheme = localStorage.getItem('theme') as Theme | null
-
-    if (savedTheme) {
-      setTheme(savedTheme)
-    } else {
-      // Check system preference
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-      setTheme(prefersDark ? 'dark' : 'light')
-    }
   }, [])
 
   // Update document class and localStorage when theme changes
   useEffect(() => {
-    if (!mounted) return
-
     const root = document.documentElement
 
     if (theme === 'dark') {
@@ -42,7 +49,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       root.classList.remove('dark')
     }
 
-    localStorage.setItem('theme', theme)
+    // Only save to localStorage after mount to avoid hydration issues
+    if (mounted) {
+      localStorage.setItem('theme', theme)
+    }
   }, [theme, mounted])
 
   const toggleTheme = () => {
