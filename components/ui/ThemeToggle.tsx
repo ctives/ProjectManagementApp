@@ -7,15 +7,21 @@ import { motion } from 'framer-motion'
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false)
-  const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
+  // Don't call useTheme until mounted to avoid context errors
   if (!mounted) {
     return <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700" />
   }
+
+  return <ThemeToggleInner />
+}
+
+function ThemeToggleInner() {
+  const { theme, toggleTheme } = useTheme()
 
   return (
     <motion.button
