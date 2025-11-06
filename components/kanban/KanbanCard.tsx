@@ -108,14 +108,13 @@ export default function KanbanCard({ card, onDelete, onUpdate }: KanbanCardProps
           </p>
         )}
 
-        <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-600 text-xs text-gray-400 dark:text-gray-500">
         {error && (
-          <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded text-xs text-red-700">
+          <div className="mt-2 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 rounded text-xs text-red-700 dark:text-red-400">
             {error}
           </div>
         )}
 
-        <div className="mt-3 pt-3 border-t border-gray-100 text-xs text-gray-400">
+        <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-600 text-xs text-gray-400 dark:text-gray-500">
           {new Date(card.createdAt).toLocaleDateString()}
         </div>
       </motion.div>
