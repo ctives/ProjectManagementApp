@@ -41,16 +41,16 @@ export default function Column({
   return (
     <div className="flex flex-col h-full w-80 flex-shrink-0">
       {/* Column Header */}
-      <div className={`${colors.header} rounded-t-lg p-4 shadow-md`}>
+      <div className={`${colors.header} rounded-t-lg p-4 shadow-md transition-colors duration-200`}>
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="font-bold text-lg text-black">{column.title}</h2>
-            <p className="text-sm text-gray-800 mt-1">{cards.length} card{cards.length !== 1 ? 's' : ''}</p>
+            <h2 className="font-bold text-lg">{column.title}</h2>
+            <p className="text-sm text-gray-300 dark:text-gray-400 mt-1">{cards.length} card{cards.length !== 1 ? 's' : ''}</p>
           </div>
           {column.id !== 'todo' && column.id !== 'in-progress' && column.id !== 'completed' && onDeleteColumn && (
             <button
               onClick={() => onDeleteColumn(column.id)}
-              className="p-2 text-black hover:bg-black/10 rounded-lg transition-colors"
+              className="p-2 text-white hover:bg-white/10 dark:hover:bg-white/20 rounded-lg transition-colors"
               title="Delete column"
             >
               <Trash2 size={18} />

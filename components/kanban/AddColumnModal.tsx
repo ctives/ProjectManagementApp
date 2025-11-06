@@ -59,8 +59,8 @@ export default function AddColumnModal({
     <Modal isOpen={isOpen} onClose={handleClose} title="Add New Column">
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Column Title <span className="text-red-500">*</span>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+            Column Title <span className="text-red-500 dark:text-red-400">*</span>
           </label>
           <input
             type="text"
@@ -68,13 +68,13 @@ export default function AddColumnModal({
             onChange={(e) => setTitle(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && title.trim() && handleSubmit()}
             autoFocus
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
             placeholder="e.g., Backlog, Review, etc."
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-3">
             Color
           </label>
           <div className="grid grid-cols-3 gap-2">
@@ -86,7 +86,7 @@ export default function AddColumnModal({
                   p-3 rounded-lg font-medium text-sm transition-all
                   ${
                     color === option
-                      ? 'ring-2 ring-offset-2 ring-gray-400 opacity-100'
+                      ? 'ring-2 ring-offset-2 dark:ring-offset-gray-800 ring-gray-400 dark:ring-gray-500 opacity-100'
                       : 'opacity-60 hover:opacity-80'
                   }
                   ${getColorBg(option)}
@@ -118,12 +118,12 @@ export default function AddColumnModal({
 
 function getColorBg(color: Column['color']): string {
   const colors: Record<Column['color'], string> = {
-    purple: 'bg-purple-200 text-purple-900',
-    blue: 'bg-blue-200 text-blue-900',
-    emerald: 'bg-emerald-200 text-emerald-900',
-    amber: 'bg-amber-200 text-amber-900',
-    rose: 'bg-rose-200 text-rose-900',
-    cyan: 'bg-cyan-200 text-cyan-900',
+    purple: 'bg-purple-200 dark:bg-purple-700 text-purple-900 dark:text-purple-100',
+    blue: 'bg-blue-200 dark:bg-blue-700 text-blue-900 dark:text-blue-100',
+    emerald: 'bg-emerald-200 dark:bg-emerald-700 text-emerald-900 dark:text-emerald-100',
+    amber: 'bg-amber-200 dark:bg-amber-700 text-amber-900 dark:text-amber-100',
+    rose: 'bg-rose-200 dark:bg-rose-700 text-rose-900 dark:text-rose-100',
+    cyan: 'bg-cyan-200 dark:bg-cyan-700 text-cyan-900 dark:text-cyan-100',
   }
   return colors[color]
 }

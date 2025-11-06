@@ -67,13 +67,13 @@ export default function KanbanCard({ card, onDelete, onUpdate }: KanbanCardProps
         whileHover={{ y: -4 }}
         whileTap={{ scale: 0.98 }}
         className={`
-          bg-white rounded-lg p-4 shadow-card border border-gray-200
+          bg-white dark:bg-gray-700 rounded-lg p-4 shadow-card border border-gray-200 dark:border-gray-600
           cursor-grab active:cursor-grabbing transition-all duration-200
           ${isDragging ? 'opacity-50 shadow-lg scale-105' : 'hover:shadow-card-hover'}
         `}
       >
         <div className="flex items-start justify-between gap-2 mb-2">
-          <h3 className="font-semibold text-gray-900 flex-1 line-clamp-2">
+          <h3 className="font-semibold text-gray-900 dark:text-white flex-1 line-clamp-2">
             {card.title}
           </h3>
           <div className="flex gap-1 flex-shrink-0">
@@ -87,14 +87,14 @@ export default function KanbanCard({ card, onDelete, onUpdate }: KanbanCardProps
             </button>
             <button
               onClick={handleEdit}
-              className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
+              className="p-1 text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               title="Edit card"
             >
               <Edit2 size={16} />
             </button>
             <button
               onClick={handleDelete}
-              className="p-1 text-gray-400 hover:text-red-600 transition-colors"
+              className="p-1 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition-colors"
               title="Delete card"
             >
               <Trash2 size={16} />
@@ -103,11 +103,12 @@ export default function KanbanCard({ card, onDelete, onUpdate }: KanbanCardProps
         </div>
 
         {card.description && (
-          <p className="text-sm text-gray-600 line-clamp-3">
+          <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3">
             {card.description}
           </p>
         )}
 
+        <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-600 text-xs text-gray-400 dark:text-gray-500">
         {error && (
           <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded text-xs text-red-700">
             {error}
