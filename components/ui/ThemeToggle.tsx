@@ -1,12 +1,21 @@
 'use client'
 
-import dynamic from 'next/dynamic'
+import { useEffect, useState } from 'react'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from '@/contexts/ThemeContext'
 import { motion } from 'framer-motion'
 
-function ThemeToggleComponent() {
+export function ThemeToggle() {
+  const [mounted, setMounted] = useState(false)
   const { theme, toggleTheme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700" />
+  }
 
   return (
     <motion.button
@@ -41,8 +50,3 @@ function ThemeToggleComponent() {
     </motion.button>
   )
 }
-
-export const ThemeToggle = dynamic(() => Promise.resolve(ThemeToggleComponent), {
-  ssr: false,
-  loading: () => <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700" />
-})
